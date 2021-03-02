@@ -45,6 +45,49 @@ def commands_validator(commands):
 
  	return ret_array
 
+def move_robot(inp_string):
+    global coordinates
+    global compas_pointer
+    # Robot move forward 
+    if(inp_string[0]=='F'):
+        if(compas_pointer=='east'):
+            coordinates=[coordinates[0]+int(inp_string[1]),coordinates[1]]
+        elif(compas_pointer=='west'):
+            coordinates=[coordinates[0]-int(inp_string[1]),coordinates[1]]
+        elif(compas_pointer=='north'):
+            coordinates=[coordinates[0],coordinates[1]+int(inp_string[1])]
+        elif(compas_pointer=='south'):
+            coordinates=[coordinates[0],coordinates[1]-int(inp_string[1])]
+    # Robot move backward 
+    if(inp_string[0]=='B'):
+        if(compas_pointer=='east'):
+            coordinates=[coordinates[0]-int(inp_string[1]),coordinates[1]]
+        elif(compas_pointer=='west'):
+            coordinates=[coordinates[0]+int(inp_string[1]),coordinates[1]]
+        elif(compas_pointer=='north'):
+            coordinates=[coordinates[0],coordinates[1]-int(inp_string[1])]
+        elif(compas_pointer=='south'):
+            coordinates=[coordinates[0],coordinates[1]+int(inp_string[1])]  
+    # Robot change the direction to right 
+    if(inp_string[0]=='R'):
+        if(compas_pointer=='north'):
+            compas_pointer='east'
+        elif(compas_pointer=='east'):
+            compas_pointer='south'          
+        elif(compas_pointer=='south'):
+            compas_pointer='west'
+        elif(compas_pointer=='west'):
+            compas_pointer='north'   
+    # Robot change the direction to left
+    if(inp_string[0]=='L'):
+        if(compas_pointer=='north'):
+            compas_pointer='west'
+        elif(compas_pointer=='west'):
+            compas_pointer='south'          
+        elif(compas_pointer=='south'):
+            compas_pointer='east'
+        elif(compas_pointer=='east'):
+            compas_pointer='north'
 
 print('Welcome')
 print('The robot is currently facing north at position 0,0')
@@ -63,9 +106,12 @@ while(True):
         print(ret_array[1])
         print('----------------')
         continue
-    else:
-        print('success')
-        break
+    for i in range(len(commands)):
+        move_robot(commands[i]) # Robot Moving
+
+        
+    print("Minimum Distance = "+ str(coordinates[0]+coordinates[1]))
+    break
 
 
 print('Thank you')
